@@ -1,0 +1,55 @@
+{
+    "name": "wooseopkim/ludite",
+    "type": "project",
+    "description": "Renders MediaWiki modules",
+    "license": "GPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "WooseopKim\\Ludite\\": "src/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": "./scripts/setup",
+        "test": "phpunit ./tests",
+        "format": "pint ./src",
+        "lint": "phpstan analyze"
+    },
+    "bin": [
+        "ludite"
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/wikimedia/mediawiki"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "mediawiki/scribunto",
+                "version": "dev-wmf/1.43.0-wmf.16",
+                "source": {
+                    "url": "https://github.com/wikimedia/mediawiki-extensions-Scribunto",
+                    "type": "git",
+                    "reference": "wmf/1.43.0-wmf.16"
+                }
+            }
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "wikimedia/composer-merge-plugin": true
+        }
+    },
+    "require-dev": {
+        "laravel/pint": "^1.17",
+        "phpstan/phpstan": "^1.11",
+        "phpunit/phpunit": "^10.5"
+    },
+    "require": {
+        "mediawiki/core": "dev-wmf/1.43.0-wmf.16",
+        "mediawiki/scribunto": "dev-wmf/1.43.0-wmf.16"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

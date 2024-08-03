@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+ROOT_DIR=$(dirname $0)/..
+
+rm $ROOT_DIR/vendor/mediawiki/core/vendor/autoload.php || :
+cat <<-EOF > $ROOT_DIR/vendor/mediawiki/core/vendor/autoload.php
+<?php
+require_once __DIR__ . '/../../../autoload.php';
+EOF
+
+rm $ROOT_DIR/vendor/mediawiki/core/LocalSettings.php || :
+rm -rf $ROOT_DIR/vendor/mediawiki/core/data || :
+
+$ROOT_DIR/vendor/mediawiki/core/maintenance/run install \
+  --dbtype sqlite \
+  --pass $(openssl rand -base64 32) \
+  --quiet \
+  stub_wiki admin
+
+cat <<-EOF >> $ROOT_DIR/vendor/mediawiki/core/LocalSettings.php
+wfLoadExtension('scribunto', __DIR__ . '/../scribunto/extension.json');
+EOF

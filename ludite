@@ -1,0 +1,13 @@
+#!/bin/sh
+
+COMMAND=${1:-setup}
+
+case $COMMAND in
+  setup)
+    $(dirname $0)/scripts/setup
+    ;;
+  *)
+    echo "unknown command: $COMMAND"
+    exit 1
+    ;;
+esac
