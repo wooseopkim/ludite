@@ -10,6 +10,7 @@ use MediaWiki\MediaWikiServices;
 use MediaWiki\Parser\Parser;
 use MediaWiki\Title\Title;
 use ParserOptions;
+use UnexpectedValueException;
 
 define('MEDIAWIKI', true);
 define('MW_ENTRY_POINT', 'cli');
@@ -48,7 +49,7 @@ class LuaModuleRenderer
         /** @var LuaModule */
         $module = $engine->fetchModuleFromParser($title);
         if ($module == null) {
-            return null;
+            throw new UnexpectedValueException("failed to fetch module from {$title->getFullText()}");
         }
         $func = $engine->executeModule($module->getInitChunk(), $funcName, $frame);
         [$result] = $engine->getInterpreter()->callFunction($func, ...$args);
